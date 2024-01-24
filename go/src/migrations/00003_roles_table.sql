@@ -1,0 +1,25 @@
+-- +goose Up
+CREATE TABLE roles
+(
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    name       VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP    NULL
+);
+
+CREATE TABLE user_roles
+(
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    user_id    INT       NOT NULL,
+    role_id    INT       NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (role_id) REFERENCES roles (id)
+);
+
+-- +goose Down
+DROP TABLE roles;
+DROP TABLE user_roles;
